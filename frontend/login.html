@@ -4,12 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
-    Enter your email:<input type="email" />
-    <input type="password" />
-    <buttton type="submit">Login</buttton> 
-    <p><a href="index.html">Signup</a></p>
+
+    <form id="loginform">
+        <label>
+            Enter your email:
+            <input type="email" id="email" required>
+        </label>
+        <label>
+            Enter your password:
+            <input type="password" id="password" required>
+        </label>
+        <button type="submit">Login</button>
+    </form>
+    <p id="message"></p>
+    <p>
+        Don't have an account?
+        <a href="index.html">Signup</a>
+    </p>
+    <script src="login.js"></script>
 </body>
 </html>
