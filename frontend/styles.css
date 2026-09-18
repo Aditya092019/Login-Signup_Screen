@@ -1,4 +1,4 @@
-#signupform{
+#loginform{
     cursor:pointer;
     padding: 5px;
     display:flex;
@@ -9,14 +9,7 @@
     margin-top: 250px;
     background-color: chocolate;
     padding:50px;
-    color:aliceblue;
-}
-
-
-#submitted{
-    margin-top: 20px;
-    background-color: blue;
-    color:white;
+    color:aliceblue; 
 }
 
 
@@ -30,14 +23,16 @@
     margin: 10px 0px;
 }
 
-#name{
-    background-color:bisque;
-    margin: 10px 0px;
-}
-
 
 #message{
     margin-left: 700px;
     margin-right: 700px;
     color:brown;
+}
+
+
+#submitted{
+    margin-top: 20px;
+    background-color: blue;
+    color:white;
 }
