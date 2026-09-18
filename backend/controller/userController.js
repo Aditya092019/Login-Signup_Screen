@@ -1,4 +1,5 @@
 const User = require('../Models/userModel');
+const bcrypt = require("bcrypt");
 
 const bodyController = async (req,res)=>{
     try {
@@ -18,10 +19,12 @@ const bodyController = async (req,res)=>{
                 message: "User already exists"
             });
         }
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
         await User.create({
             name,
             email,
-            password
+            password:hashedPassword
         });
         res.status(201).json({
             message: "User registered successfully"
@@ -53,7 +56,8 @@ const loginController = async (req,res)=>{
                 message: "User  not authorized"
             });
         }
-        if (existingUser.password !== password) {
+        const isMatch = await bcrypt.compare(password, existingUser.password);
+        if (!isMatch) {
             return res.status(401).json({
                 message: "Invalid password"
             });
