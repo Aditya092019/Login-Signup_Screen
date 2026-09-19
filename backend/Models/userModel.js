@@ -21,4 +21,19 @@ const Users = sequelize.define("User", {
 
 });
 
-module.exports = Users;
+const Expense = sequelize.define("Expense", {
+    amount: {
+        type: DataTypes.DECIMAL(10,2),
+        allowNull:false
+    },
+    description:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
+    category:{
+        type:DataTypes.STRING,
+        allowNull:false
+    }
+})
+
+module.exports = {Users,Expense};
