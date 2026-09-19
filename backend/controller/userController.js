@@ -1,4 +1,4 @@
-const User = require('../Models/userModel');
+const {Users,Expense} = require('../Models/userModel');
 const bcrypt = require("bcrypt");
 
 const bodyController = async (req,res)=>{
@@ -9,7 +9,7 @@ const bodyController = async (req,res)=>{
                 message: "All fields are required"
             });
         }
-        const existingUser = await User.findOne({
+        const existingUser = await Users.findOne({
             where: {
                 email: email
             }
@@ -21,7 +21,7 @@ const bodyController = async (req,res)=>{
         }
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-        await User.create({
+        await Users.create({
             name,
             email,
             password:hashedPassword
@@ -46,7 +46,7 @@ const loginController = async (req,res)=>{
             message: "All fields are required"
             })
         }
-        const existingUser = await User.findOne({
+        const existingUser = await Users.findOne({
             where: {
                 email: email
             }
@@ -78,4 +78,38 @@ const loginController = async (req,res)=>{
     }
 }
 
-module.exports = {bodyController,loginController};
+const expenseController = async (req,res)=>{
+    try{
+        const {amount,description,category} = req.body;
+        if(!amount || !description || !category){
+            return res.status(400).json({
+            message: "All fields are required"
+            })
+        }
+        await Expense.create({
+            amount,
+            description,
+            category
+        })
+        res.status(201).json({
+            message: "Expense created successfully"
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+}
+
+const getExpenseController = async (req,res) =>{
+   try{
+        const expenses = await Expense.findAll();
+        return res.status(200).json({ message: "Expenses fetched successfully", expenses: expenses });
+   }catch(error){
+        console.log(error); 
+        return res.status(500).json({ message: "Internal server error" });
+   }
+}
+
+module.exports = {bodyController,loginController,expenseController,getExpenseController};
