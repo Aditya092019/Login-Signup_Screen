@@ -12,17 +12,19 @@ expense.addEventListener('submit',  async (event) => {
         description,
         category
     }
-
+    const token = localStorage.getItem('token');
     try{
         const response = await fetch("http://localhost:3000/users/expense", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(expenses)
         });
         const data = await response.json();
         console.log(data);
+        
         if (!response.ok) {
             message.textContent = data.message;
             return;
@@ -38,18 +40,22 @@ expense.addEventListener('submit',  async (event) => {
 
 function displayExpense(expenses){
     const deletebtn = document.createElement('button');
-    deletebtn.textContent = 'Delete';
+    deletebtn.textContent = ' Delete Expense ';
     const li = document.createElement("li");
-    li.textContent = `Amount: ${expenses.amount}, Description: ${expenses.description}, Category: ${expenses.category}`;
+    li.textContent = `Amount: ${expenses.amount} --- Description: ${expenses.description} --- Category: ${expenses.category}---`;
     li.appendChild(deletebtn);
     list.appendChild(li);
+    deletebtn.addEventListener("click", ()=>{
+        deleteexpense(expenses);
+        li.remove();
+    })
 }
 
 document.addEventListener("DOMContentLoaded", async() => {
-
+    const token = localStorage.getItem('token');
     console.log("DOM loaded");
     try{
-        const response = await fetch( "http://localhost:3000/users/expense" );
+        const response = await fetch( "http://localhost:3000/users/expense", {headers: {"Authorization": `Bearer ${token}`}});
         const data = await response.json(); 
         console.log(data);
         if (!response.ok) { console.error(data.message); return; }
@@ -58,4 +64,23 @@ document.addEventListener("DOMContentLoaded", async() => {
         console.error(error.message);
     };
 })
+
+
+const deleteexpense= async (expense)=>{
+    try{
+        const response = await fetch(`http://localhost:3000/users/expense/${expense.id}`,{
+            method: "DELETE"
+        });
+        const data = await response.json();
+        console.log(data);
+        if (!response.ok) {
+            console.error(data.message);
+            return false;
+        }
+        return true;
+    }catch(error){
+       console.error(error);
+    }
+}
+
 

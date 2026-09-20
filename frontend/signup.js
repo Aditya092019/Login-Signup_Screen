@@ -34,9 +34,9 @@ form.addEventListener("submit", async (event) => {
         console.log(data);
 
         message.textContent = data.message;
-
+        alert('User registered successfully');
         form.reset();
-
+        window.location.href = "login.html";
     } catch (error) {
         console.error("Error:", error);
         message.textContent = "Something went wrong";

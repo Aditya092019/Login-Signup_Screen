@@ -1,5 +1,6 @@
-const {Users,Expense} = require('../Models/userModel');
+const {Users} = require('../Models/userModel');
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const bodyController = async (req,res)=>{
     try {
@@ -62,8 +63,12 @@ const loginController = async (req,res)=>{
                 message: "Invalid password"
             });
         }
+        const token = generateAccessToken(
+            existingUser.id
+        );
         return res.status(200).json({
             message: "Login successful",
+            jwtToken:token,
             user: {
                 id: existingUser.id,
                 name: existingUser.name,
@@ -78,38 +83,10 @@ const loginController = async (req,res)=>{
     }
 }
 
-const expenseController = async (req,res)=>{
-    try{
-        const {amount,description,category} = req.body;
-        if(!amount || !description || !category){
-            return res.status(400).json({
-            message: "All fields are required"
-            })
-        }
-        await Expense.create({
-            amount,
-            description,
-            category
-        })
-        res.status(201).json({
-            message: "Expense created successfully"
-        });
-    }catch(error){
-        console.log(error);
-        res.status(500).json({
-            message: "Internal server error"
-        });
-    }
+function generateAccessToken(id){
+    return jwt.sign({userId:id},"secretkey");
 }
 
-const getExpenseController = async (req,res) =>{
-   try{
-        const expenses = await Expense.findAll();
-        return res.status(200).json({ message: "Expenses fetched successfully", expenses: expenses });
-   }catch(error){
-        console.log(error); 
-        return res.status(500).json({ message: "Internal server error" });
-   }
-}
 
-module.exports = {bodyController,loginController,expenseController,getExpenseController};
+
+module.exports = {bodyController,loginController};

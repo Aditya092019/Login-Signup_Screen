@@ -22,6 +22,12 @@ const Users = sequelize.define("User", {
 });
 
 const Expense = sequelize.define("Expense", {
+    id:{
+       type:DataTypes.INTEGER,
+       primaryKey:true,
+       autoIncrement:true,
+       allowNull:false
+    },
     amount: {
         type: DataTypes.DECIMAL(10,2),
         allowNull:false
@@ -33,7 +39,17 @@ const Expense = sequelize.define("Expense", {
     category:{
         type:DataTypes.STRING,
         allowNull:false
+    },
+    userId: {
+        type: DataTypes.INTEGER,
     }
 })
+
+Users.hasMany(Expense,{
+    foreignKey: "userId"
+});
+Expense.belongsTo(Users,{
+    foreignKey: "userId"
+});
 
 module.exports = {Users,Expense};

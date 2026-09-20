@@ -9,10 +9,12 @@ app.use(express.json());
 app.use(cors());
 app.use("/", router);
 
+
+
 db.authenticate()
     .then(() => {
         console.log("Database connected successfully");
-        return db.sync();
+        return db.sync({ alter: true });
     })
     .catch((error) => {
         console.log("Database connection failed:", error);

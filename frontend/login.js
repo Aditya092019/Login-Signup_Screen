@@ -33,9 +33,10 @@ form.addEventListener("submit", async (event) => {
         }
 
         message.textContent = data.message;
-
+        localStorage.setItem("token", data.jwtToken);
         form.reset();
-
+        alert('Login successfully');
+        window.location.href = "expense.html";
     } catch (error) {
 
         console.error("Error:", error);
