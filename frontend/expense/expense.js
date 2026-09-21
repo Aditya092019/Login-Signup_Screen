@@ -1,5 +1,6 @@
 const expense = document.getElementById('submitform');
 const list = document.getElementById("list");
+const leaderboard = document.getElementById("leaderboard");
 
 expense.addEventListener('submit',  async (event) => {
     event.preventDefault();
@@ -83,4 +84,35 @@ const deleteexpense= async (expense)=>{
     }
 }
 
+leaderboard.addEventListener("click", async () => {
+    console.log("Leaderboard button clicked");
+    try {
+        const response = await fetch(
+            "http://localhost:3000/users/premium/showleaderboard"
+        );
+        console.log("HTTP status:", response.status);
+        const data = await response.json();
 
+        console.log("Response:", data);
+        showleaderboard(data);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
+
+
+function showleaderboard(data){
+    const list = document.createElement('ul');
+    const div = document.getElementById('premium'); 
+    div.innerHTML = '';
+    const h2 = document.createElement('h2');
+    h2.textContent = `Leaderboard`;
+    div.appendChild(h2);
+    div.appendChild(list);
+    data.forEach((user) => {
+        const li = document.createElement("li");
+        li.textContent =
+            `Name: ${user["User.name"]} -- Total Expense: ${user.Amount}`;
+        list.appendChild(li);
+    });
+}

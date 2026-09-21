@@ -14,7 +14,7 @@ app.use("/", router);
 db.authenticate()
     .then(() => {
         console.log("Database connected successfully");
-        return db.sync({ alter: true });
+        return db.sync();
     })
     .catch((error) => {
         console.log("Database connection failed:", error);
