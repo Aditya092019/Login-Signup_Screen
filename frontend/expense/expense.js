@@ -39,19 +39,24 @@ expense.addEventListener('submit',  async (event) => {
 
 })
 
-function displayExpense(expenses){
-    const deletebtn = document.createElement('button');
-    deletebtn.textContent = ' Delete Expense ';
+function displayExpense(expenses) {
     const li = document.createElement("li");
-    li.textContent = `Amount: ${expenses.amount} --- Description: ${expenses.description} --- Category: ${expenses.category}---`;
+    li.className = "expense-item";
+    const expenseText = document.createElement("div");
+    expenseText.className = "expense-text";
+    expenseText.textContent =
+        `Amount: ₹${expenses.amount} | Description: ${expenses.description} | Category: ${expenses.category}`;
+    const deletebtn = document.createElement("button");
+    deletebtn.textContent = "Delete Expense";
+    deletebtn.className = "delete-btn";
+    li.appendChild(expenseText);
     li.appendChild(deletebtn);
     list.appendChild(li);
-    deletebtn.addEventListener("click", ()=>{
+    deletebtn.addEventListener("click", () => {
         deleteexpense(expenses);
         li.remove();
-    })
+    });
 }
-
 document.addEventListener("DOMContentLoaded", async() => {
     const token = localStorage.getItem('token');
     console.log("DOM loaded");
@@ -103,18 +108,21 @@ leaderboard.addEventListener("click", async () => {
 });
 
 
-function showleaderboard(data){
-    const list = document.createElement('ul');
-    const div = document.getElementById('premium'); 
-    div.innerHTML = '';
-    const h2 = document.createElement('h2');
-    h2.textContent = `Leaderboard`;
+function showleaderboard(data) {
+    const list = document.createElement("ul");
+    list.className = "leaderboard-list";
+    const div = document.getElementById("premium");
+    div.innerHTML = "";
+    const h2 = document.createElement("h2");
+    h2.textContent = "🏆 Leaderboard";
+    h2.className = "leaderboard-title";
     div.appendChild(h2);
     div.appendChild(list);
     data.forEach((user) => {
         const li = document.createElement("li");
+        li.className = "leaderboard-item";
         li.textContent =
-            `Name: ${user.name} -- Total Expense: ${user.totalExpenses}`;
+            `Name: ${user.name}  --  Total Expense: ₹${user.totalExpenses}`;
         list.appendChild(li);
     });
 }

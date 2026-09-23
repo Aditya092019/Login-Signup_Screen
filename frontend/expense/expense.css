@@ -1,0 +1,148 @@
+body{
+   background-color: lightgoldenrodyellow;
+}
+
+#premiummembership{
+    background-color: aquamarine;
+    color:aliceblue;
+    font-size: 25px;
+    border:2px solid red;
+    padding: 10px;
+    
+}
+
+#submitform{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color:bisque;
+    height: 300px;
+    padding:20px;
+    margin-left: 350px;
+    margin-right: 350px;
+    justify-content: space-around;
+}
+
+#expenseaddition{
+    background-color: darkblue;
+    color:blanchedalmond;
+    padding: 5px 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+}
+
+#submitform label{
+    color:cornflowerblue;
+    font-size: 25px;
+}
+
+#leader{
+    color:blueviolet;
+    font-size: 25px;
+    font-family: sans-serif;
+}
+
+#leaderboard{
+    border:2px solid red;
+    background-color:chartreuse;
+    color:bisque;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding:10px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+h2{
+    color:crimson;
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+
+/* Expense Item  */
+
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    padding: 15px 18px;
+    margin-bottom: 12px;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s ease;
+}
+
+.expense-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.expense-text {
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+
+    border: none;
+    border-radius: 7px;
+
+    padding: 9px 14px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+    transform: scale(1.03);
+}
+
+
+/*  Show premium    */
+
+
+#premium {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+.leaderboard-title {
+    text-align: center;
+    color: #333;
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+}
+
+.leaderboard-item {
+    background: #f5f5f5;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.leaderboard-item:hover {
+    background: #e8e8e8;
+}

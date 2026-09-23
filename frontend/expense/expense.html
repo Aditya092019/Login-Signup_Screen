@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="expense.css">
     <title>Document</title>
 </head>
 <body>
     <button id="premiummembership">Buy Premium</button>
     <form id="submitform">
-        Choose expenseamount:<input type="number" id="amount" name="amount"/>
-        Choose description:<input type="text" id="description" name="description"/>
-        <button type="submit">Add Expense</button>
+        <label for="amount">Choose expense amount:</label><input type="number" id="amount" name="amount"/>
+        <label for="description">Choose description:</label><textarea placeholder="Enter your description" rows="5"
+        cols="40" id="description" name="description"></textarea>
+        <button type="submit" id="expenseaddition">Add Expense</button>
     </form> 
-    You are a premium user <button type="click" id="leaderboard">Show Leaderboard</button>
+    <label id="leader">You are a premium user</label> <button type="click" id="leaderboard">Show Leaderboard</button>
     <h2>Expense</h2>
     <ul id="list"></ul> 
 
