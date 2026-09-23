@@ -88,7 +88,6 @@ const updatepassword = async (req, res) => {
     try {
 
         const { newpassword } = req.query;
-        // const { resetpasswordid } = req.params;
         console.log("Update Password:",req.params.resetpasswordid);
 
         const resetpasswordrequest = await Forgotpassword.findOne({
@@ -97,6 +96,7 @@ const updatepassword = async (req, res) => {
                 active: true
             }
         });
+        console.log("12345");
 
         if (!resetpasswordrequest) {
             return res.status(404).json({
@@ -104,10 +104,10 @@ const updatepassword = async (req, res) => {
                 success: false
             });
         }
-
+        console.log(resetpasswordrequest.UserId);
         const user = await Users.findOne({
             where: {
-                id: resetpasswordrequest.userId
+                id: resetpasswordrequest.UserId
             }
         });
 
