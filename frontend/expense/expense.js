@@ -6,12 +6,10 @@ expense.addEventListener('submit',  async (event) => {
     event.preventDefault();
     const amount = document.getElementById('amount').value;
     const description = document.getElementById('description').value;
-    const category = document.getElementById('category').value;
 
     const expenses = {
         amount,
-        description,
-        category
+        description
     }
     const token = localStorage.getItem('token');
     try{
@@ -30,7 +28,9 @@ expense.addEventListener('submit',  async (event) => {
             message.textContent = data.message;
             return;
         }
-        displayExpense(expenses)
+        const expension = { amount, description, category: data.category };
+        console.log("AI selected category:", data.category);
+        displayExpense(expension);
         expense.reset();
     }catch(error){
         console.error("Error:", error);
@@ -69,8 +69,10 @@ document.addEventListener("DOMContentLoaded", async() => {
 
 const deleteexpense= async (expense)=>{
     try{
+        const token = localStorage.getItem('token');
         const response = await fetch(`http://localhost:3000/users/expense/${expense.id}`,{
-            method: "DELETE"
+            method: "DELETE",
+            headers: {"Authorization": `Bearer ${token}`}
         });
         const data = await response.json();
         console.log(data);
@@ -112,7 +114,7 @@ function showleaderboard(data){
     data.forEach((user) => {
         const li = document.createElement("li");
         li.textContent =
-            `Name: ${user["User.name"]} -- Total Expense: ${user.Amount}`;
+            `Name: ${user.name} -- Total Expense: ${user.totalExpenses}`;
         list.appendChild(li);
     });
 }

@@ -2,7 +2,8 @@ const {Sequelize} = require('sequelize');
 
 const sequelize = new Sequelize('busbooked', 'root', 'root',{
     host:'localhost',
-    dialect:'mysql'
+    dialect:'mysql',
+    logging: false
 });
 
 (async ()=>{

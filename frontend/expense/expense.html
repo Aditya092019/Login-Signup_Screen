@@ -6,16 +6,10 @@
     <title>Document</title>
 </head>
 <body>
+    <button id="premiummembership">Buy Premium</button>
     <form id="submitform">
-        Choose expenseamount:<input type="number" id="amount"/>
-        Choose description:<input type="text" id="description"/>
-        Choose a category:
-        <select id="category">
-            <option>fuel</option>
-            <option>food</option>
-            <option>electricity</option>
-            <option>Movie</option>
-        </select>
+        Choose expenseamount:<input type="number" id="amount" name="amount"/>
+        Choose description:<input type="text" id="description" name="description"/>
         <button type="submit">Add Expense</button>
     </form> 
     You are a premium user <button type="click" id="leaderboard">Show Leaderboard</button>
@@ -24,5 +18,10 @@
 
     <div id="premium"></div>
     <script src="expense.js"></script>
+    <script>
+        document.getElementById("premiummembership").addEventListener("click", () => {
+        window.location.href = "../payment/index.html";
+    });
+    </script>
 </body>
 </html>

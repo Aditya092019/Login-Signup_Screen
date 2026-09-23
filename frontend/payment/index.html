@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cashfree Checkout Integration</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+    </head>
+    <body>
+        <div class="row">
+            <p>Click below to open the checkout page in current tab</p>
+            <button id="renderBtn">Proceed to Pay</button>
+        </div>
+        <script>
+
+            const cashfree = Cashfree({
+                mode: "sandbox"
+            });
+            document.getElementById("renderBtn").addEventListener("click", async () => {
+
+                try {
+                    const response = await fetch(
+                        "http://localhost:3000/create-order",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        }
+                    );
+
+                    const data = await response.json();
+
+                    console.log("Backend response:", data);
+                    const orderId = data.orderId;
+                    if (!data.success) {
+                        alert("Unable to create order");
+                        return;
+                    }
+                    const checkoutOptions = {
+                        paymentSessionId: data.paymentSessionId,
+                        redirectTarget: "_self"
+                    };
+                    cashfree.checkout(checkoutOptions);
+
+                } catch (error) {
+
+                    console.error("Error:", error);
+                    alert("Something went wrong");
+                }
+            });
+        </script>
+    </body>
+</html>
