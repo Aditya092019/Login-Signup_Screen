@@ -1,6 +1,7 @@
 const expense = document.getElementById('submitform');
 const list = document.getElementById("list");
 const leaderboard = document.getElementById("leaderboard");
+let currentPage = 1;
 
 expense.addEventListener('submit',  async (event) => {
     event.preventDefault();
@@ -25,7 +26,7 @@ expense.addEventListener('submit',  async (event) => {
         console.log(data);
         
         if (!response.ok) {
-            message.textContent = data.message;
+            console.error(data.message);
             return;
         }
         const expension = { amount, description, category: data.category };
@@ -52,13 +53,14 @@ function displayExpense(expenses) {
     li.appendChild(expenseText);
     li.appendChild(deletebtn);
     list.appendChild(li);
-    deletebtn.addEventListener("click", () => {
-        deleteexpense(expenses);
-        li.remove();
+    deletebtn.addEventListener("click", async () => {
+        const success = await deleteexpense(expenses);
+        if (success) {
+            getExpenses(currentPage);
+        }
     });
 }
 
-let currentPage = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
     limit = Number(document.getElementById("dynamicpage").value);

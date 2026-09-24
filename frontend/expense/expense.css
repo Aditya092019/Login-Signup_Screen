@@ -1,108 +1,344 @@
-body{
-   background-color: lightgoldenrodyellow;
+/* ================================
+   GLOBAL
+================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-#premiummembership{
-    background-color: aquamarine;
-    color:aliceblue;
-    font-size: 25px;
-    border:2px solid red;
-    padding: 10px;
-    
+body {
+    min-height: 100vh;
+    background: #f4f6f8;
+    color: #1f2937;
+    font-family: "Segoe UI", Arial, sans-serif;
+    padding: 35px 45px 50px 280px;
 }
 
-#submitform{
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color:bisque;
-    height: 300px;
-    padding:20px;
-    margin-left: 350px;
-    margin-right: 350px;
-    justify-content: space-around;
+
+/* ================================
+   SIDEBAR BACKGROUND
+================================ */
+body::before {
+    content: "Expense Tracker\A\A Dashboard\A Add Expense\A Expenses\A Leaderboard\A Premium\A Logout";
+    white-space: pre;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 230px;
+    padding: 35px 25px;
+    background: #151922;
+    color: #9ca3af;
+    font-size: 14px;
+    line-height: 3.2;
+    z-index: 1;
 }
 
-#expenseaddition{
-    background-color: darkblue;
-    color:blanchedalmond;
-    padding: 5px 0px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 20px;
+/* ================================
+   PREMIUM BUTTON
+================================ */
+
+#premiummembership {
+    background: #677a04;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    padding: 11px 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(103, 122, 4, 0.25);
+
+    transition: 0.2s ease;
 }
 
-#submitform label{
-    color:cornflowerblue;
-    font-size: 25px;
+#premiummembership:hover {
+    background: #536300;
+    transform: translateY(-2px);
 }
 
-#leader{
-    color:blueviolet;
-    font-size: 25px;
-    font-family: sans-serif;
-}
 
-#leaderboard{
-    border:2px solid red;
-    background-color:chartreuse;
-    color:bisque;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    padding:10px;
-    margin-top: 20px;
+/* ================================
+   EXPENSE FORM
+================================ */
+
+#submitform {
+    width: 100%;
+    max-width: 750px;
+
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+
+    background: white;
+
+    padding: 28px;
+    margin: 35px auto;
+
+    border-radius: 14px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
 }
 
-h2{
-    color:crimson;
-    font-family: sans-serif;
-    font-size: 18px;
+#submitform label {
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    margin-top: 5px;
 }
 
 
-/* Expense Item  */
+/* INPUT + TEXTAREA */
 
+#submitform input,
+#submitform textarea {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #f9fafb;
+
+    color: #111827;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+#submitform input:focus,
+#submitform textarea:focus {
+    background: white;
+    border-color: #677a04;
+
+    box-shadow: 0 0 0 3px rgba(103, 122, 4, 0.12);
+}
+
+
+/* ================================
+   ADD EXPENSE BUTTON
+================================ */
+
+#expenseaddition {
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 12px;
+
+    background: #677a04;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+#expenseaddition:hover {
+    background: #536300;
+    transform: translateY(-1px);
+}
+
+
+/* ================================
+   HEADINGS
+================================ */
+
+h2 {
+    color: #111827;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    margin: 30px 0 18px;
+}
+
+
+/* ================================
+   PREMIUM USER LABEL
+================================ */
+
+#leader {
+    display: inline-block;
+
+    color: #677a04;
+
+    background: #eef2d8;
+
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    margin-top: 15px;
+}
+
+
+/* ================================
+   LEADERBOARD BUTTON
+================================ */
+
+#leaderboard {
+    background: #1f2937;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 10px 16px;
+
+    margin-left: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+#leaderboard:hover {
+    background: #111827;
+    transform: translateY(-1px);
+}
+
+
+/* ================================
+   EXPENSE PER PAGE
+================================ */
+
+label[for="dynamicpage"] {
+    color: #6b7280;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    margin-right: 8px;
+}
+
+#dynamicpage {
+    padding: 8px 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    background: white;
+
+    color: #374151;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+#dynamicpage:focus {
+    border-color: #677a04;
+}
+
+
+/* ================================
+   EXPENSE LIST
+================================ */
+
+#list {
+    list-style: none;
+
+    width: 100%;
+    max-width: 900px;
+
+    margin-top: 20px;
+    padding: 0;
+}
+
+
+/* ================================
+   EXPENSE ITEM
+================================ */
 
 .expense-item {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
 
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    gap: 20px;
 
-    padding: 15px 18px;
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    padding: 17px 20px;
+
     margin-bottom: 12px;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 
     transition: 0.2s ease;
 }
 
 .expense-item:hover {
+    border-color: #cbd5a1;
+
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
 }
+
+
+/* EXPENSE TEXT */
 
 .expense-text {
-    color: #333;
-    font-size: 15px;
-    font-weight: 500;
-}
-
-.delete-btn {
-    background: #dc2626;
-    color: white;
-
-    border: none;
-    border-radius: 7px;
-
-    padding: 9px 14px;
+    color: #374151;
 
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 500;
+
+    line-height: 1.6;
+}
+
+
+/* ================================
+   DELETE BUTTON
+================================ */
+
+.delete-btn {
+    flex-shrink: 0;
+
+    background: #fee2e2;
+    color: #dc2626;
+
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+
+    padding: 8px 13px;
+
+    font-size: 13px;
+    font-weight: 600;
 
     cursor: pointer;
 
@@ -110,39 +346,204 @@ h2{
 }
 
 .delete-btn:hover {
-    background: #b91c1c;
-    transform: scale(1.03);
+    background: #dc2626;
+    color: white;
+
+    transform: translateY(-1px);
 }
 
 
-/*  Show premium    */
+/* ================================
+   PAGINATION
+================================ */
 
+#pagination {
+    display: flex;
+
+    align-items: center;
+    gap: 7px;
+
+    margin-top: 22px;
+    margin-bottom: 30px;
+}
+
+#pagination button {
+    min-width: 36px;
+    height: 36px;
+
+    padding: 0 10px;
+
+    background: white;
+
+    color: #374151;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+#pagination button:hover {
+    background: #677a04;
+    color: white;
+
+    border-color: #677a04;
+}
+
+
+/* ================================
+   PREMIUM / LEADERBOARD CARD
+================================ */
 
 #premium {
+    width: 100%;
+    max-width: 850px;
+
     background: white;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 12px;
+
+    padding: 25px;
+
+    margin-top: 25px;
+
+    border-radius: 14px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
+
+/* ================================
+   LEADERBOARD
+================================ */
+
 .leaderboard-title {
-    text-align: center;
-    color: #333;
+    text-align: left;
+
+    color: #111827;
+
+    font-size: 22px;
+
+    margin-bottom: 18px;
 }
 
 .leaderboard-list {
     list-style: none;
+
     padding: 0;
 }
 
 .leaderboard-item {
-    background: #f5f5f5;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    padding: 14px 16px;
+
+    margin: 9px 0;
+
+    border-radius: 9px;
+
+    color: #374151;
+
+    font-size: 14px;
     font-weight: 500;
+
+    transition: 0.2s ease;
 }
 
 .leaderboard-item:hover {
-    background: #e8e8e8;
+    background: #f1f5f9;
+
+    transform: translateX(3px);
+}
+
+
+/* ================================
+   SCROLLBAR
+================================ */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c5c9b0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #677a04;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+
+    body {
+        padding: 25px;
+    }
+
+    body::before {
+        display: none;
+    }
+
+    #submitform {
+        margin: 25px auto;
+    }
+
+    .expense-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .delete-btn {
+        width: 100%;
+    }
+
+    #leaderboard {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 18px;
+    }
+
+    h2 {
+        font-size: 21px;
+    }
+
+    #submitform {
+        padding: 20px;
+    }
+
+    .expense-text {
+        font-size: 13px;
+    }
+
+    #pagination {
+        flex-wrap: wrap;
+    }
 }

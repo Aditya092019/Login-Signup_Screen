@@ -1,48 +1,197 @@
-body{
-    background: #1e293b;
+/* ================================
+   GLOBAL
+================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    min-height: 100vh;
 
-#signupform{
-    cursor:pointer;
-    padding: 5px;
-    display:flex;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-left: 700px;
-    margin-right: 700px;
-    margin-top: 250px;
-    background-color: chocolate;
-    padding:50px;
-    color:aliceblue;
+
+    background: #f4f6f8;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    color: #1f2937;
 }
 
 
-#submitted{
-    margin-top: 20px;
-    background-color: blue;
-    color:white;
+/* ================================
+   SIGNUP FORM
+================================ */
+
+#signupform {
+    width: 380px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 35px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
 }
 
 
-#email{
-    background-color:bisque;
-    margin: 10px 0px;
-}
+/* ================================
+   FORM LABEL TEXT
+================================ */
 
-#password{
-    background-color:bisque;
-    margin: 10px 0px;
-}
+#signupform {
+    color: #374151;
 
-#name{
-    background-color:bisque;
-    margin: 10px 0px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 
-#message{
-    margin-left: 700px;
-    margin-right: 700px;
-    color:brown;
+/* ================================
+   INPUTS
+================================ */
+
+#name,
+#email,
+#password {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    margin: 7px 0 18px;
+
+    background: #f9fafb;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    color: #111827;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+
+/* INPUT FOCUS */
+
+#name:focus,
+#email:focus,
+#password:focus {
+    background: #ffffff;
+
+    border-color: #677a04;
+
+    box-shadow: 0 0 0 3px rgba(103, 122, 4, 0.12);
+}
+
+
+/* ================================
+   SIGNUP BUTTON
+================================ */
+
+#submitted {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 3px;
+
+    background: #677a04;
+
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+#submitted:hover {
+    background: #536300;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 15px rgba(103, 122, 4, 0.25);
+}
+
+
+/* ================================
+   MESSAGE
+================================ */
+
+#message {
+    width: 380px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #dc2626;
+
+    font-size: 14px;
+}
+
+
+/* ================================
+   LOGIN LINK
+================================ */
+
+#login {
+    width: 380px;
+
+    margin-top: 12px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+#login a {
+    color: #677a04;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+#login a:hover {
+    text-decoration: underline;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 500px) {
+
+    #signupform,
+    #message,
+    #login {
+        width: calc(100% - 35px);
+    }
+
+    #signupform {
+        padding: 25px;
+    }
 }

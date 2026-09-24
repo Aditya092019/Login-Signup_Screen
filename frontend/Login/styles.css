@@ -1,50 +1,218 @@
-body{
-    background: #1e293b;
+/* ================================
+   GLOBAL
+================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    min-height: 100vh;
 
-#loginform{
-    cursor:pointer;
-    padding: 5px;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 700px;
-    margin-right: 700px;
-    margin-top: 250px;
-    background-color: chocolate;
-    padding:50px;
-    color:aliceblue; 
-}
-
-
-#email{
-    background-color:bisque;
-    margin: 10px 0px;
-}
-
-#password{
-    background-color:bisque;
-    margin: 10px 0px;
-}
-
-
-#message{
-    margin-left: 700px;
-    margin-right: 700px;
-    color:brown;
-}
-
-
-#submitted{
-    margin-top: 20px;
-    background-color: blue;
-    color:white;
-}
-
-
-#forget{
-    color:brown;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+
+    background: #f4f6f8;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    color: #1f2937;
+}
+
+
+/* ================================
+   LOGIN FORM
+================================ */
+
+#loginform {
+    width: 380px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 35px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ================================
+   FORM LABELS
+================================ */
+
+#loginform label {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    margin-bottom: 18px;
+}
+
+
+/* ================================
+   INPUTS
+================================ */
+
+#email,
+#password {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    background: #f9fafb;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    color: #111827;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+#email:focus,
+#password:focus {
+    background: #ffffff;
+
+    border-color: #677a04;
+
+    box-shadow: 0 0 0 3px rgba(103, 122, 4, 0.12);
+}
+
+
+/* ================================
+   LOGIN BUTTON
+================================ */
+
+#submitted {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 5px;
+
+    background: #677a04;
+
+    color: #ffffff;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+#submitted:hover {
+    background: #536300;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 15px rgba(103, 122, 4, 0.25);
+}
+
+
+/* ================================
+   MESSAGE
+================================ */
+
+#message {
+    width: 380px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #dc2626;
+
+    font-size: 14px;
+}
+
+
+/* ================================
+   SIGNUP LINK
+================================ */
+
+#message a {
+    color: #677a04;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+#message a:hover {
+    text-decoration: underline;
+}
+
+
+/* ================================
+   FORGOT PASSWORD
+================================ */
+
+#forget {
+    width: 380px;
+
+    margin-top: 10px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+#forget a {
+    display: inline-block;
+
+    margin-left: 4px;
+
+    color: #677a04;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+#forget a:hover {
+    text-decoration: underline;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 500px) {
+
+    #loginform,
+    #message,
+    #forget {
+        width: calc(100% - 35px);
+    }
+
+    #loginform {
+        padding: 25px;
+    }
 }

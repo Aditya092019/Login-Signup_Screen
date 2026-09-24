@@ -7,25 +7,25 @@
     <title>Document</title>
 </head>
 <body>
-    <button id="premiummembership">Buy Premium</button>
-    <form id="submitform">
-        <label for="amount">Choose expense amount:</label><input type="number" id="amount" name="amount"/>
-        <label for="description">Choose description:</label><textarea placeholder="Enter your description" rows="5"
-        cols="40" id="description" name="description"></textarea>
-        <button type="submit" id="expenseaddition">Add Expense</button>
-    </form> 
-    <label id="leader">You are a premium user</label> <button type="click" id="leaderboard">Show Leaderboard</button>
-    <h2>Expense</h2>
-    <label for="dynamicpage">Expense per page</label><select id="dynamicpage"><option  value="2">2</option><option value="5" selected>5</option><option value="8">8</option></select>
-    <ul id="list"></ul> 
-    <div id="pagination"></div>
+        <button id="premiummembership">Buy Premium</button>
+        <form id="submitform">
+            <label for="amount">Choose expense amount:</label><input type="number" id="amount" name="amount"/>
+            <label for="description">Choose description:</label><textarea placeholder="Enter your description" rows="5"
+            cols="40" id="description" name="description"></textarea>
+            <button type="submit" id="expenseaddition">Add Expense</button>
+        </form> 
+        <label id="leader">You are a premium user</label> <button type="click" id="leaderboard">Show Leaderboard</button>
+        <h2>Expense</h2>
+        <label for="dynamicpage">Expense per page</label><select id="dynamicpage"><option  value="2">2</option><option value="5" selected>5</option><option value="8">8</option></select>
+        <ul id="list"></ul> 
+        <div id="pagination"></div>
 
-    <div id="premium"></div>
-    <script src="expense.js"></script>
-    <script>
-        document.getElementById("premiummembership").addEventListener("click", () => {
-        window.location.href = "../payment/index.html";
-    });
-    </script>
+        <div id="premium"></div>
+        <script src="expense.js"></script>
+        <script>
+            document.getElementById("premiummembership").addEventListener("click", () => {
+            window.location.href = "../payment/index.html";
+        });
+        </script>
 </body>
 </html>
