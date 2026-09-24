@@ -41,3 +41,10 @@ body{
     background-color: blue;
     color:white;
 }
+
+
+#forget{
+    color:brown;
+    display: flex;
+    justify-content: center;
+}

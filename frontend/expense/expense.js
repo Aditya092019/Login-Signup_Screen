@@ -57,20 +57,74 @@ function displayExpense(expenses) {
         li.remove();
     });
 }
-document.addEventListener("DOMContentLoaded", async() => {
-    const token = localStorage.getItem('token');
-    console.log("DOM loaded");
-    try{
-        const response = await fetch( "http://localhost:3000/users/expense", {headers: {"Authorization": `Bearer ${token}`}});
-        const data = await response.json(); 
-        console.log(data);
-        if (!response.ok) { console.error(data.message); return; }
-        data.expenses.forEach((expense) => { displayExpense(expense); });
-    }catch(error) {
-        console.error(error.message);
-    };
-})
 
+let currentPage = 1;
+
+document.addEventListener("DOMContentLoaded", () => {
+    limit = Number(document.getElementById("dynamicpage").value);
+    getExpenses(1);
+});
+
+document.getElementById("dynamicpage").addEventListener("change", (event) => {
+    limit = Number(event.target.value);
+    getExpenses(1);
+});
+
+async function getExpenses(page) {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await fetch(
+            `http://localhost:3000/users/expense?page=${page}&limit=${limit}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+        const data = await response.json();
+        if (!response.ok) {
+            console.error(data.message);
+            return;
+        }
+        currentPage = data.currentPage;
+        document.getElementById("list").innerHTML = "";
+        data.expenses.forEach((expense) => {
+            displayExpense(expense);
+        });
+        showPagination(data.currentPage, data.totalPages);
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+function showPagination(currentPage, totalPages) {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    if (currentPage > 1) {
+        const previous = document.createElement("button");
+        previous.textContent = "Previous";
+        previous.onclick = () => {
+            getExpenses(currentPage - 1);
+        };
+        pagination.appendChild(previous);
+    }
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.onclick = () => {
+            getExpenses(i);
+        };
+        pagination.appendChild(button);
+    }
+    if (currentPage < totalPages) {
+        const next = document.createElement("button");
+        next.textContent = "Next";
+        next.onclick = () => {
+            getExpenses(currentPage + 1);
+        };
+        pagination.appendChild(next);
+    }
+}
 
 const deleteexpense= async (expense)=>{
     try{

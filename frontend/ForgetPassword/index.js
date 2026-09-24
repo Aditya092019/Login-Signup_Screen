@@ -1,3 +1,5 @@
+const message = document.getElementById("provided");
+
 function forgotpassword(e) {
     e.preventDefault();
     console.log(e.target.name);
@@ -10,11 +12,13 @@ function forgotpassword(e) {
     console.log(userDetails)
     axios.post('http://localhost:3000/forgotpassword',userDetails).then(response => {
         if(response.status === 202){
-            document.body.innerHTML += '<div style="color:green;">Mail Successfuly sent <div>'
+            message.textContent = "Mail Successfully Sent";
+            message.style.color = 'green';
         } else {
             throw new Error('Something went wrong!!!')
         }
     }).catch(err => {
-        document.body.innerHTML += `<div style="color:red;">${err} <div>`;
+        message.textContent = err.message;;
+        message.style.color = 'red';
     })
 }

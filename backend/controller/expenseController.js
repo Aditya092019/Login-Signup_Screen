@@ -20,22 +20,32 @@ const postExpenseController = async (req,res)=>{
         const ai = new GoogleGenAI({
             apiKey: process.env.GEMINI_API_KEY
         });
-        const responsefromAI = await ai.interactions.create({
-            model: "gemini-3.8-flash",
-            input: `
-                Classify this expense into exactly one category:
-        
-                food
-                electricity
-                movie
-                fuel
-        
-                Return only the category.
-        
-                Expense:
-                ${description}
-            `
-        });
+        let responsefromAI; 
+        try {
+            responsefromAI = await ai.interactions.create({
+                model: "gemini-3.8-flash",
+                input: `
+                    Classify this expense into exactly one category:
+                    food
+                    electricity
+                    movie
+                    fuel
+                    Return only the category.
+                    Expense:
+                    ${description}
+                `
+            });
+        } catch (error) {
+            await t.rollback();
+            if (error.statusCode === 429) {
+                return res.status(429).json({
+                    message: "AI service rate limit exceeded. Please try again later."
+                });
+            }
+            return res.status(503).json({
+                message: "AI service is currently unavailable."
+            });
+        }
         const category = responsefromAI.output_text.trim().toLowerCase();
         console.log("Gemini category:", category); 
         const allowedCategories = [ "food", "electricity", "movie", "fuel" ]; 
@@ -67,9 +77,30 @@ const postExpenseController = async (req,res)=>{
 
 const getExpenseController = async (req,res) =>{
    try{
-        console.log(req.user.id);
-        const expenses = await Expense.findAll({where: {userId:req.user.id}});
-        return res.status(200).json({ message: "Expenses fetched successfully", expenses: expenses });
+    const page = parseInt(req.query.page) || 1;
+    const requestedLimit = parseInt(req.query.limit) || 5;
+    const allowedLimits = [2, 5, 8];
+    const limit = allowedLimits.includes(requestedLimit)
+        ? requestedLimit
+        : 5;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: expenses } = await Expense.findAndCountAll({
+        where: {
+            userId: req.user.id
+        },
+        limit: limit,
+        offset: offset,
+        order: [['id', 'DESC']]
+    });
+
+    return res.status(200).json({
+        message: "Expenses fetched successfully",
+        expenses: expenses,
+        currentPage: page,
+        totalPages: Math.ceil(count / limit),
+        totalExpenses: count
+    });
    }catch(error){
         console.log(error); 
         return res.status(500).json({ message: "Internal server error" });

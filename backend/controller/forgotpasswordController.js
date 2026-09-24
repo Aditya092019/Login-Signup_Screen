@@ -55,32 +55,90 @@ const forgotpassword = async (req, res) => {
 }
 
 
-
 const resetpassword = (req, res) => {
-    const id =  req.params.id;
-    Forgotpassword.findOne({ where : { id }}).then(forgotpasswordrequest => {
-        if(forgotpasswordrequest){
-            forgotpasswordrequest.update();
-            res.status(200).send(`<html>
-                                    <script>
-                                        function formsubmitted(e){
-                                            e.preventDefault();
-                                            console.log('called')
-                                        }
-                                    </script>
+    const id = req.params.id;
+    Forgotpassword.findOne({ where: { id } })
+        .then(forgotpasswordrequest => {
+            if (forgotpasswordrequest) {
+                res.status(200).send(`
+                    <html>
+                        <head>
+                            <style>
+                                * {
+                                    margin: 0;
+                                    padding: 0;
+                                    box-sizing: border-box;
+                                    font-family: Arial, sans-serif;
+                                }
+                                body {
+                                    min-height: 100vh;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    background: #1e293b;
+                                }
+                                form {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 20px;
+                                    padding: 30px 20px;
+                                    background-color: blanchedalmond;
+                                    width: 300px;
+                                    border-radius: 10px;
+                                }
+                                label {
+                                    font-size: 18px;
+                                    font-weight: bold;
+                                }
+                                input {
+                                    padding: 10px;
+                                    border: 1px solid #ccc;
+                                    border-radius: 5px;
+                                    font-size: 16px;
+                                }
+                                button {
+                                    background-color: chartreuse;
+                                    color: black;
+                                    padding: 10px;
+                                    font-size: 18px;
+                                    border: none;
+                                    border-radius: 5px;
+                                    cursor: pointer;
+                                }
+                                button:hover {
+                                    background-color: #7fff00;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <form action="/updatepassword/${id}" method="get">
+                                <label for="newpassword">
+                                    Enter New Password
+                                </label>
+                                <input
+                                    id="newpassword"
+                                    name="newpassword"
+                                    type="password"
+                                    required
+                                />
+                                <button type="submit">
+                                    Reset Password
+                                </button>
+                            </form>
+                        </body>
+                    </html>
+                `);
 
-                                    <form action="/updatepassword/${id}" method="get">
-                                        <label for="newpassword">Enter New password</label>
-                                        <input name="newpassword" type="password" required></input>
-                                        <button>reset password</button>
-                                    </form>
-                                </html>`
-                                )
-            res.end()
+            } else {
+                res.status(404).send("Reset password request not found");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).send("Something went wrong");
+        });
+};
 
-        }
-    })
-}
 
 
 const updatepassword = async (req, res) => {
