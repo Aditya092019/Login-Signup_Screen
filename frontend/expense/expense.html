@@ -7,7 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-        <button id="premiummembership">Buy Premium</button>
+        <div class="nav-button">
+            <button id="premiummembership">Buy Premium</button>
+            <button id="logout">Logout</button>
+        </div>    
         <form id="submitform">
             <label for="amount">Choose expense amount:</label><input type="number" id="amount" name="amount"/>
             <label for="description">Choose description:</label><textarea placeholder="Enter your description" rows="5"
@@ -24,8 +27,13 @@
         <script src="expense.js"></script>
         <script>
             document.getElementById("premiummembership").addEventListener("click", () => {
-            window.location.href = "../payment/index.html";
-        });
+                window.location.href = "../payment/index.html";
+            });
+
+            document.getElementById("logout").addEventListener("click", () => {
+                localStorage.removeItem("token");
+                window.location.href = "../Login/login.html";
+            });
         </script>
 </body>
 </html>

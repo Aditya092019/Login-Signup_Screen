@@ -94,6 +94,7 @@ async function getExpenses(page) {
             displayExpense(expense);
         });
         showPagination(data.currentPage, data.totalPages);
+        return data;
     } catch (error) {
         console.error(error.message);
     }
@@ -141,11 +142,20 @@ const deleteexpense= async (expense)=>{
             console.error(data.message);
             return false;
         }
+        await handleAfterDelete();
         return true;
     }catch(error){
        console.error(error);
     }
 }
+
+const handleAfterDelete = async () => {
+    const data = await getExpenses(currentPage);
+    if (currentPage>data.totalPages && currentPage > 1) {
+        currentPage--;
+        await getExpenses(currentPage);
+    }
+};
 
 leaderboard.addEventListener("click", async () => {
     console.log("Leaderboard button clicked");

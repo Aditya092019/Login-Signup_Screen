@@ -36,6 +36,11 @@ body::before {
     z-index: 1;
 }
 
+.nav-button{
+    display: flex;
+    justify-content: space-between;
+}
+
 /* ================================
    PREMIUM BUTTON
 ================================ */
@@ -62,6 +67,35 @@ body::before {
     background: #536300;
     transform: translateY(-2px);
 }
+
+/* ===============================
+   Logout Button
+================================== */
+
+
+#logout {
+    background: #677a04;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    padding: 11px 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(103, 122, 4, 0.25);
+
+    transition: 0.2s ease;
+}
+
+#logout:hover {
+    background: #536300;
+    transform: translateY(-2px);
+}
+
 
 
 /* ================================
