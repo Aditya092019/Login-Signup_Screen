@@ -12,9 +12,7 @@ const authenticate = (req,res,next)=>{
             });
         }
         const token = authHeader.split(" ")[1];;
-        console.log(token);
-        const user = jwt.verify(token,'secretkey');
-        console.log('userID >>>>', user.userId)
+        const user = jwt.verify(token,process.env.JWT_SECRET);
         Users.findByPk(user.userId).then(userData=>{
             req.user = userData;
             next();

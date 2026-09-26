@@ -1,10 +1,14 @@
 const {Sequelize} = require('sequelize');
 
-const sequelize = new Sequelize('expensetracker', 'root', 'root',{
-    host:'localhost',
-    dialect:'mysql',
-    logging: false
-});
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+        host: process.env.DB_HOST || 'localhost',
+        dialect:'mysql',
+        logging: false
+    });
 
 (async ()=>{
     try{
@@ -13,7 +17,7 @@ const sequelize = new Sequelize('expensetracker', 'root', 'root',{
     }catch(error){
        console.log(error);
     }
-})
+})();
 
 
 module.exports = sequelize;

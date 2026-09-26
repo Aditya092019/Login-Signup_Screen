@@ -1,8 +1,13 @@
 const {Expense,Users} = require('../Models/userModel');
-const sequelize = require('../utils/db-connection');
 
 const getpremiumExpenseAmount = async (req, res) => {
     try {
+        if (!req.user.isPremium) {
+            return res.status(403).json({
+                success: false,
+                message: 'Premium membership required'
+            });
+        }
         const report = await Users.findAll({
             attributes: ['name', 'totalExpenses'],
             order: [      
@@ -16,9 +21,7 @@ const getpremiumExpenseAmount = async (req, res) => {
             'Error fetching grouped expenses:',
             error
         );
-        return res.status(500).json({
-            message: 'Unable to fetch expense report'
-        });
+        next(error);
     }
 };
 

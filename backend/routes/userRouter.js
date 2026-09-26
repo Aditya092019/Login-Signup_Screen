@@ -13,13 +13,13 @@ router.post("/users/login", userRoutes.loginController);
 router.post("/users/expense",userauthenticate.authenticate, expenseController.postExpenseController);
 router.get("/users/expense",userauthenticate.authenticate, expenseController.getExpenseController);
 router.delete("/users/expense/:expenseid",userauthenticate.authenticate, expenseController.deleteexpense);
-router.get("/users/premium/showleaderboard",premiumController.getpremiumExpenseAmount);
+router.get("/users/premium/showleaderboard",userauthenticate.authenticate,premiumController.getpremiumExpenseAmount);
 
 router.get('/updatepassword/:resetpasswordid', resetpasswordController.updatepassword);
 router.get('/resetpassword/:id', resetpasswordController.resetpassword);
 router.post('/forgotpassword', resetpasswordController.forgotpassword);
 
-router.post("/create-order", paymentservice.createOrder);
+router.post("/create-order",userauthenticate.authenticate, paymentservice.createOrder);
 router.get("/success/:orderId", paymentservice.paymentSuccess)
 
 

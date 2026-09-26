@@ -158,10 +158,15 @@ const handleAfterDelete = async () => {
 };
 
 leaderboard.addEventListener("click", async () => {
+    const token = localStorage.getItem('token');
     console.log("Leaderboard button clicked");
     try {
         const response = await fetch(
-            "http://localhost:3000/users/premium/showleaderboard"
+            "http://localhost:3000/users/premium/showleaderboard",{
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
         );
         console.log("HTTP status:", response.status);
         const data = await response.json();

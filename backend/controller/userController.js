@@ -31,10 +31,7 @@ const bodyController = async (req,res)=>{
             message: "User registered successfully"
         });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Internal server error"
-        });
+        next(error);
     }
 }
 
@@ -76,15 +73,12 @@ const loginController = async (req,res)=>{
             }
         });
     }catch(error){
-        console.log(error);
-        res.status(500).json({
-            message: "Internal server error"
-        });
+        next(error);
     }
 }
 
 function generateAccessToken(id){
-    return jwt.sign({userId:id},"secretkey");
+    return jwt.sign({userId:id},process.env.JWT_SECRET);
 }
 
 

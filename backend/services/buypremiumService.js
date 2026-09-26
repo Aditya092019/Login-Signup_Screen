@@ -1,6 +1,7 @@
 const { Cashfree, CFEnvironment } = require("cashfree-pg");
 const Payment = require("../Models/paymentModel");
-require('dotenv').config();
+const { Users } = require("../Models/userModel");
+
 
 const cashfree = new Cashfree(
     CFEnvironment.SANDBOX,
@@ -24,8 +25,8 @@ const createOrder = async (req, res) => {
             order_id: orderId,
 
             customer_details: {
-                customer_id: "devstudio_user",
-                customer_phone: "9876543210"
+                customer_id: String(req.user.id),
+                customer_phone: process.env.customerPhone
             },
 
             order_meta: {
@@ -65,10 +66,7 @@ const createOrder = async (req, res) => {
             error.response?.data || error.message
         );
 
-        res.status(500).json({
-            success: false,
-            message: "Order creation failed"
-        });
+        next(error);
     }
 };
 
@@ -77,51 +75,59 @@ const createOrder = async (req, res) => {
 const paymentSuccess = async (req, res) => {
     try {
         const { orderId } = req.params;
-
         console.log("========== PAYMENT SUCCESS ==========");
         console.log("Order ID:", orderId);
-
-        const response =
-            await cashfree.PGOrderFetchPayments(orderId);
-
+        const response = await cashfree.PGOrderFetchPayments(orderId);
         const payments = response.data;
-
         const payment = await Payment.findOne({
             where: {
                 orderId: orderId
             }
         });
-
-        if (!payment) { 
-            return res.status(404).json({ success: false, message: "Payment record not found" }); 
+        if (!payment) {
+            return res.status(404).json({
+                success: false,
+                message: "Payment record not found"
+            });
         }
-
-        if (payments.length > 0) { 
-            await payment.update({ 
-                paymentId: payments[0].cf_payment_id, 
-                status: payments[0].payment_status }); 
+        if (payments.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: "No payment found"
+            });
         }
-
-        console.log("Payments:", payments);
-
+        const paymentData = payments[0];
+        await payment.update({
+            paymentId: paymentData.cf_payment_id,
+            status: paymentData.payment_status
+        });
+        console.log(payment.userId);
+        if (paymentData.payment_status === "SUCCESS") {
+            await Users.update(
+                {
+                    isPremium: true
+                },
+                {
+                    where: {
+                        id: payment.customerId
+                    }
+                }
+            );
+            console.log("Premium membership activated");
+        }
+        console.log("Payment status:", paymentData.payment_status);
         res.json({
             success: true,
             orderId,
-            payments
+            paymentStatus: paymentData.payment_status
         });
-
     } catch (error) {
         console.error(
             "Payment verification error:",
             error.response?.data || error.message
         );
-
-        res.status(500).json({
-            success: false,
-            message: "Unable to verify payment"
-        });
+        next(error);
     }
 };
-
 
 module.exports = {createOrder,paymentSuccess};

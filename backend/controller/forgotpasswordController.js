@@ -49,7 +49,7 @@ const forgotpassword = async (req, res) => {
         }
     } catch(err){
         console.error(err)
-        return res.json({ message: err, sucess: false });
+        next(err);
     }
 
 }
@@ -135,7 +135,7 @@ const resetpassword = (req, res) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).send("Something went wrong");
+            next(error);
         });
 };
 
@@ -144,18 +144,13 @@ const resetpassword = (req, res) => {
 const updatepassword = async (req, res) => {
 
     try {
-
         const { newpassword } = req.query;
-        console.log("Update Password:",req.params.resetpasswordid);
-
         const resetpasswordrequest = await Forgotpassword.findOne({
             where: {
                 id: req.params.resetpasswordid,
                 active: true
             }
         });
-        console.log("12345");
-
         if (!resetpasswordrequest) {
             return res.status(404).json({
                 error: "Password reset request not found",
@@ -168,7 +163,6 @@ const updatepassword = async (req, res) => {
                 id: resetpasswordrequest.UserId
             }
         });
-
         if (!user) {
             return res.status(404).json({
                 error: "No user Exists",
@@ -181,23 +175,15 @@ const updatepassword = async (req, res) => {
         await user.update({
             password: hash
         });
-
         await resetpasswordrequest.update({
             active: false
         });
-
         return res.status(201).json({
             message: "Successfully updated the new password"
         });
-
     } catch (error) {
-
         console.log(error);
-
-        return res.status(403).json({
-            error: error.message,
-            success: false
-        });
+        next(error);
     }
 };
 

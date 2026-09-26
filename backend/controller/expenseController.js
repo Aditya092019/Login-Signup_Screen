@@ -1,5 +1,3 @@
-// const jwt = require("jsonwebtoken");
-// const JWT_SECRET = "my_super_secret_key_123456789";
 const {Expense,Users} = require('../Models/userModel');
 const sequelize = require('../utils/db-connection');
 const {GoogleGenAI} = require("@google/genai");
@@ -69,9 +67,7 @@ const postExpenseController = async (req,res)=>{
         if (t) {
             await t.rollback();
         }
-        res.status(500).json({
-            message: "Internal server error"
-        });
+        next(error);
     }
 }
 
@@ -103,7 +99,7 @@ const getExpenseController = async (req,res) =>{
     });
    }catch(error){
         console.log(error); 
-        return res.status(500).json({ message: "Internal server error" });
+        next(error);
    }
 }
 
@@ -162,10 +158,7 @@ const deleteexpense = async (req, res) => {
     } catch (err) {
         console.log(err);
         await t.rollback();
-        return res.status(500).json({
-            error: err,
-            success: false
-        });
+        next(error);
     }
 };
 

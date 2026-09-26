@@ -18,14 +18,15 @@
                 mode: "sandbox"
             });
             document.getElementById("renderBtn").addEventListener("click", async () => {
-
+                const token = localStorage.getItem('token');
                 try {
                     const response = await fetch(
                         "http://localhost:3000/create-order",
                         {
                             method: "POST",
                             headers: {
-                                "Content-Type": "application/json"
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${token}`
                             }
                         }
                     );
