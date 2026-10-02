@@ -197,3 +197,126 @@ function showleaderboard(data) {
         list.appendChild(li);
     });
 }
+
+
+const downloadButton = document.getElementById("downloadexpenses");
+const downloadResult = document.getElementById("downloadresult");
+
+downloadButton.addEventListener("click", async () => {
+    try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            downloadResult.textContent = "Please login first.";
+            return;
+        }
+
+        const response = await fetch(
+            "http://localhost:3000/users/expense/download",
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            downloadResult.textContent =
+                data.message || "Unable to generate expense file.";
+            return;
+        }
+
+        downloadResult.innerHTML = "";
+
+        const message = document.createElement("p");
+        message.textContent = data.message;
+
+        const link = document.createElement("a");
+        link.href = data.fileUrl;
+        link.textContent = "Open Expense File";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        downloadResult.appendChild(message);
+        downloadResult.appendChild(link);
+
+    } catch (error) {
+        console.error("Download error:", error);
+        downloadResult.textContent =
+            "Unable to generate expense file.";
+    }
+});
+
+
+
+const showDownloads = document.getElementById("showdownloads");
+const downloadList = document.getElementById("downloadlist");
+
+showDownloads.addEventListener("click", async () => {
+    try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            downloadList.textContent = "Please login first.";
+            return;
+        }
+
+        const response = await fetch(
+            "http://localhost:3000/users/expense/downloads",
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            downloadList.textContent =
+                data.message || "Unable to fetch files.";
+            return;
+        }
+
+        downloadList.innerHTML = "";
+
+        if (!data.files || data.files.length === 0) {
+            downloadList.textContent = "No expense files found.";
+            return;
+        }
+
+        data.files.forEach((file) => {
+
+            const item = document.createElement("div");
+
+            const name = document.createElement("p");
+            name.textContent =
+                `File: ${file.fileName.split("/").pop()}`;
+
+            const date = document.createElement("p");
+            date.textContent =
+                `Created: ${new Date(file.createdAt).toLocaleString()}`;
+
+            const link = document.createElement("a");
+            link.href = file.fileUrl;
+            link.textContent = "Open File";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            item.appendChild(name);
+            item.appendChild(date);
+            item.appendChild(link);
+
+            downloadList.appendChild(item);
+        });
+
+    } catch (error) {
+        console.error("Error:", error);
+        downloadList.textContent =
+            "Unable to load downloaded files.";
+    }
+});

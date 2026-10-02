@@ -1,8 +1,14 @@
 const {Expense,Users} = require('../Models/userModel');
 const sequelize = require('../utils/db-connection');
 const {GoogleGenAI} = require("@google/genai");
-const configDotenv = require("dotenv");
-configDotenv.config();
+const {
+    S3Client,
+    PutObjectCommand,
+    GetObjectCommand,
+    ListObjectsV2Command
+} = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { v4: uuidv4 } = require("uuid");
 
 const postExpenseController = async (req,res)=>{
     let t;
@@ -164,4 +170,99 @@ const deleteexpense = async (req, res) => {
 
 
 
-module.exports = {postExpenseController,getExpenseController,deleteexpense};
+const downloadExpenses = async (req, res, next) => {
+    try {
+        if (!req.user.isPremium) {
+            return res.status(401).json({
+                success: false,
+                message: "User is not a premium User"
+            });
+        }
+        const expenses = await Expense.findAll({
+            where: {
+                userId: req.user.id
+            },
+            order: [["id", "DESC"]]
+        });
+        const s3 = new S3Client({
+            region: process.env.AWS_REGION,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+            }
+        });
+        const fileName = `users/${req.user.id}/expenses-${uuidv4()}.json`;;
+        const fileData = JSON.stringify(expenses, null, 2);
+        console.log(fileData);
+        const command = new PutObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: fileName,
+            Body: fileData,
+            ContentType: "application/json"
+        });
+        await s3.send(command);
+        const getObjectCommand = new GetObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: fileName
+        });
+        const fileUrl = await getSignedUrl(
+            s3,
+            getObjectCommand,
+            { expiresIn: 300 }
+        );        return res.status(200).json({
+            success: true,
+            message: "Expenses file generated successfully",
+            fileUrl: fileUrl
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+
+const listDownloadedFiles = async (req, res, next) => {
+    try {
+        const s3 = new S3Client({
+            region: process.env.AWS_REGION,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+            }
+        });
+        const prefix = `users/${req.user.id}/`;
+        const command = new ListObjectsV2Command({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Prefix: prefix
+        });
+        const result = await s3.send(command);
+        const files = await Promise.all(
+            (result.Contents || []).map(async (file) => {
+                const getObjectCommand = new GetObjectCommand({
+                    Bucket: process.env.AWS_BUCKET_NAME,
+                    Key: file.Key
+                });
+                const fileUrl = await getSignedUrl(
+                    s3,
+                    getObjectCommand,
+                    { expiresIn: 300 }
+                );
+                return {
+                    fileName: file.Key,
+                    size: file.Size,
+                    createdAt: file.LastModified,
+                    fileUrl: fileUrl
+                };
+            })
+        );
+        res.status(200).json({
+            success: true,
+            files
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+module.exports = {postExpenseController,getExpenseController,deleteexpense,downloadExpenses,listDownloadedFiles};

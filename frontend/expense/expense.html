@@ -9,6 +9,8 @@
 <body>
         <div class="nav-button">
             <button id="premiummembership">Buy Premium</button>
+            <button id="downloadexpenses">Download Expenses</button>
+            <button id="showdownloads">Previously Generated Files</button>
             <button id="logout">Logout</button>
         </div>    
         <form id="submitform">
@@ -24,6 +26,11 @@
         <div id="pagination"></div>
 
         <div id="premium"></div>
+        <div id="downloadresult"></div>
+        <div class="previousdownloads">
+            <h2>Previously Generated Expense Files</h2>
+            <div id="downloadlist"></div>
+        </div>
         <script src="expense.js"></script>
         <script>
             document.getElementById("premiummembership").addEventListener("click", () => {

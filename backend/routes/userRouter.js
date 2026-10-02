@@ -14,6 +14,8 @@ router.post("/users/expense",userauthenticate.authenticate, expenseController.po
 router.get("/users/expense",userauthenticate.authenticate, expenseController.getExpenseController);
 router.delete("/users/expense/:expenseid",userauthenticate.authenticate, expenseController.deleteexpense);
 router.get("/users/premium/showleaderboard",userauthenticate.authenticate,premiumController.getpremiumExpenseAmount);
+router.get('/users/expense/download', userauthenticate.authenticate, expenseController.downloadExpenses);
+router.get("/users/expense/downloads",userauthenticate.authenticate,expenseController.listDownloadedFiles);
 
 router.get('/updatepassword/:resetpasswordid', resetpasswordController.updatepassword);
 router.get('/resetpassword/:id', resetpasswordController.resetpassword);
